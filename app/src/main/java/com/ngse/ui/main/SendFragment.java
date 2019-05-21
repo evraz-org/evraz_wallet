@@ -108,7 +108,6 @@ public class SendFragment extends BaseFragment implements View.OnTouchListener,H
     private ArrayAdapter<String> feeAdapter;
     private ArrayAdapter<String> assetAdapter;
 
-
     public SendFragment() {
         // Required empty public constructor
     }
