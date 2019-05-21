@@ -67,7 +67,7 @@ public class ServersRecyclerAdapter extends RecyclerView.Adapter<ServersRecycler
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ServerViewHolder holder, int position) {
-        if(position == getItemCount() - 1) {
+        if (position == getItemCount() - 1) {
             holder.itemView.setVisibility(View.INVISIBLE);
         } else {
             Server server = servers.get(position);
@@ -85,8 +85,13 @@ public class ServersRecyclerAdapter extends RecyclerView.Adapter<ServersRecycler
                 try {
                     String address = server.getAddress();
                     address = address.replace("wss://", "");
+                    address = address.replace("ws://", "");
                     int index = address.indexOf('/');
-                    address = address.substring(0, index);
+                    if (index > 0)
+                        address = address.substring(0, index);
+                    index = address.indexOf(':');
+                    if (index > 0)
+                        address = address.substring(0, index);
                     String ping = Ping.ping(address);
                     new Handler(Looper.getMainLooper()).post(() -> {
                         if (ping == null) {
