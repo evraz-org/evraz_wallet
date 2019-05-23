@@ -37,13 +37,6 @@ public class PairsRecyclerAdapter extends RecyclerView.Adapter<PairsRecyclerAdap
         this.context = context;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         pairs = new ArrayList<>(preferences.getStringSet("pairs", new HashSet<>()));
-        if(pairs.size() == 0) {
-            String[] fromRes = context.getResources().getStringArray(R.array.quotation_currency_pair_values);
-            Set<String> pairsSet = new HashSet<>();
-            Collections.addAll(pairsSet, fromRes);
-            Collections.addAll(pairs, fromRes);
-            preferences.edit().putStringSet("pairs", pairsSet).apply();
-        }
         selected = pairs.indexOf(preferences.getString("quotation_currency_pair", "BTS:USD"));
     }
 

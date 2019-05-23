@@ -96,7 +96,8 @@ public class PairsFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        ViewModelProviders.of(getActivity()).get(QuotationViewModel.class).getMarketTicker();
+        QuotationViewModel viewModel = ViewModelProviders.of(getActivity()).get(QuotationViewModel.class);
+        viewModel.getMarketTicker().observe(getActivity(),listResource -> {});
         super.onDestroyView();
     }
 }

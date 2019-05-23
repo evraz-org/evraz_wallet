@@ -205,7 +205,7 @@ public class QuotationCurrencyPairAdapter extends RecyclerView.Adapter<Quotation
 
     public BitsharesMarketTicker getSelectedMarketTicker() {
         if (selected >= bitsharesMarketTickerList.size()) {
-            return bitsharesMarketTickerList.get(0);
+            return null;
         }
 
         return bitsharesMarketTickerList.get(selected);

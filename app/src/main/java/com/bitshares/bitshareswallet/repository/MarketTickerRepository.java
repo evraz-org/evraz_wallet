@@ -93,11 +93,10 @@ public class MarketTickerRepository {
 
         bitsharesAssetObjectList.clear();
         List<BitsharesMarketTicker> bitsharesMarketTickerList = new ArrayList<>();
-        String[] strArrayValue = BitsharesApplication.getInstance().getResources().getStringArray(R.array.quotation_currency_pair_values);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(BitsharesApplication.getInstance());
         ArrayList<String> pairs = new ArrayList<>(preferences.getStringSet("pairs", new HashSet<>()));
 
-        for (String strValue : strArrayValue) {
+        for (String strValue : pairs) {
             String[] strAssetArray = strValue.split(":");
             BitsharesAssetObject assetObjectBase;
             if (mapSymbol2Object.containsKey(strAssetArray[0])) {

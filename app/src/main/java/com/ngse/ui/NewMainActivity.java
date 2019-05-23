@@ -153,6 +153,16 @@ public class NewMainActivity extends AppCompatActivity
         updateTitle();
         setTitleVisible(false);
 
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BitsharesApplication.getInstance());
+        List<String> arrValues = new ArrayList<>(prefs.getStringSet("pairs", new HashSet<>()));
+        if(arrValues.size() == 0) {
+            String[] fromRes = getResources().getStringArray(R.array.quotation_currency_pair_values);
+            Set<String> pairsSet = new HashSet<>();
+            Collections.addAll(pairsSet, fromRes);
+            Collections.addAll(arrValues, fromRes);
+            prefs.edit().putStringSet("pairs", pairsSet).apply();
+        }
+
         mLayoutTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,7 +207,6 @@ public class NewMainActivity extends AppCompatActivity
         });
 
         WalletViewModel walletViewModel = ViewModelProviders.of(this).get(WalletViewModel.class);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BitsharesApplication.getInstance());
         String strCurrency = prefs.getString("currency_setting", "USD");
         walletViewModel.changeCurrency(strCurrency);
 
