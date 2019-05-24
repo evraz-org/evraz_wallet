@@ -367,9 +367,7 @@ public class NewMainActivity extends AppCompatActivity
     private void showKeys(List<Pair<String, String>> keyPairs) {
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(new KeysAdapter(this, keyPairs));
-
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.keys)
                 .setView(recyclerView)

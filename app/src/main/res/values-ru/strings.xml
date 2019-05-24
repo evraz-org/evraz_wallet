@@ -253,5 +253,8 @@
     <string name="priv_copied">Приватный ключ скопирован</string>
     <string name="copy_success">Успешно скопировано</string>
     <string name="OK">OK</string>
-
+    <string name="Owners_permission">Права доступа владельца</string>
+    <string name="Active_permission">Действующие права доступа</string>
+    <string name="Public_key">Публичный ключ</string>
+    <string name="Private_key">Приватный ключ</string>
 </resources>

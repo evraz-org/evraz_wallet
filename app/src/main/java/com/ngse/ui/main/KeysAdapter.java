@@ -18,7 +18,7 @@ import org.evrazcoin.evrazwallet.R;
 
 import java.util.List;
 
-public class KeysAdapter extends RecyclerView.Adapter<KeysAdapter.KeyViewHolder> {
+public class KeysAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Pair<String, String>> keys;
     private ClipboardManager clipboard;
@@ -32,33 +32,56 @@ public class KeysAdapter extends RecyclerView.Adapter<KeysAdapter.KeyViewHolder>
 
     @NonNull
     @Override
-    public KeyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_keys, viewGroup, false);
-        return new KeyViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        switch (viewType % 2) {
+            case 0: {
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_keys_title, viewGroup, false);
+                return new SubtitleViewHolder(view);
+            }
+            default:
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_keys, viewGroup, false);
+                return new KeyViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull KeyViewHolder holder, int i) {
-        Pair<String, String> keyPair = keys.get(i);
-        holder.textViewPub.setText(keyPair.first);
-        holder.textViewPriv.setText(keyPair.second);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        switch (holder.getItemViewType() % 2) {
+            case 0: {
+                SubtitleViewHolder subtitleViewHolder = (SubtitleViewHolder) holder;
+                subtitleViewHolder.subtitle.setText(position == 0 ? R.string.Owners_permission : R.string.Active_permission);
+                break;
+            }
+            default: {
+                Pair<String, String> keyPair = keys.get(position / 2);
+                KeyViewHolder keyholder = (KeyViewHolder) holder;
+                keyholder.textViewPub.setText(context.getString(R.string.Public_key) + ": " + keyPair.first.trim());
+                keyholder.textViewPriv.setText(context.getString(R.string.Private_key) + ": " + keyPair.second.trim());
 
-        holder.copyPub.setOnClickListener(v -> {
-            ClipData clip = ClipData.newPlainText("PUBLIC KEY", keyPair.first);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(context, context.getString(R.string.pub_copied), Toast.LENGTH_SHORT).show();
-        });
+                keyholder.copyPub.setOnClickListener(v -> {
+                    ClipData clip = ClipData.newPlainText(context.getString(R.string.Public_key), keyPair.first);
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(context, context.getString(R.string.pub_copied), Toast.LENGTH_SHORT).show();
+                });
 
-        holder.copyPriv.setOnClickListener(v -> {
-            ClipData clip = ClipData.newPlainText("PRIVATE KEY", keyPair.second);
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(context, context.getString(R.string.priv_copied), Toast.LENGTH_SHORT).show();
-        });
+                keyholder.copyPriv.setOnClickListener(v -> {
+                    ClipData clip = ClipData.newPlainText(context.getString(R.string.Private_key), keyPair.second);
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(context, context.getString(R.string.priv_copied), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override
     public int getItemCount() {
-        return keys.size();
+        return keys.size() * 2;
     }
 
     static class KeyViewHolder extends RecyclerView.ViewHolder {
@@ -74,6 +97,15 @@ public class KeysAdapter extends RecyclerView.Adapter<KeysAdapter.KeyViewHolder>
             textViewPriv = itemView.findViewById(R.id.privTextView);
             copyPub = itemView.findViewById(R.id.pubCopy);
             copyPriv = itemView.findViewById(R.id.privCopy);
+        }
+    }
+
+    static class SubtitleViewHolder extends RecyclerView.ViewHolder {
+        TextView subtitle;
+
+        public SubtitleViewHolder(@NonNull View itemView) {
+            super(itemView);
+            this.subtitle = itemView.findViewById(R.id.subtitle);
         }
     }
 }

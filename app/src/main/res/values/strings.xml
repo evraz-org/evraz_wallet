@@ -263,4 +263,9 @@
     <string name="priv_copied">Private key copied</string>
     <string name="copy_success">Copy Successfully</string>
     <string name="OK">OK</string>
+    <string name="Owners_permission">Owners permission</string>
+    <string name="Active_permission">Active permission</string>
+    <string name="Public_key">Public key</string>
+    <string name="Private_key">Private key</string>
+
 </resources>
