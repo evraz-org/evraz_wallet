@@ -57,7 +57,7 @@
     </string-array>
 
     <string-array name="full_node_api_server_options">
-        <item>ws://116.203.115.183:8090</item>
+        <item>ws://116.203.99.47:8090</item>
         <item>wss://eu.nodes.bitshares.ws</item>
         <item>wss://bitshares.openledger.info/ws</item>
         <item>wss://bitshares.nu/ws</item>
@@ -68,7 +68,7 @@
     </string-array>
 
     <string-array name="full_node_api_server_values">
-        <item>ws://116.203.115.183:8090</item>
+        <item>ws://116.203.99.47:8090</item>
         <item>wss://eu.nodes.bitshares.ws</item>
         <item>wss://bitshares.openledger.info/ws</item>
         <item>wss://bitshares.nu/ws</item>
