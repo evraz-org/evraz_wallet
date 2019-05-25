@@ -245,5 +245,6 @@
     <string name="add_pair_exist">This pair already exist!</string>
     <string name="cannot_delete_selected_pair">Can not delete selected pair!</string>
     <string name="add">Add</string>
+    <string name="share">Share</string>
 
 </resources>

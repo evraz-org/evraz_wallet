@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -78,8 +80,10 @@ import static com.ngse.utility.Utils.*;
  * Use the {@link SendFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SendFragment extends BaseFragment {
+public class SendFragment extends BaseFragment implements View.OnTouchListener,Handler.Callback  {
 
+    private static final int CLICK_ON_WEBVIEW = 1;
+    private static final int CLICK_ON_URL = 2;
     @BindView(R.id.editTextTo)
     EditText mEditTextTo;
     @BindView(R.id.textViewToId)
@@ -103,6 +107,7 @@ public class SendFragment extends BaseFragment {
     private Handler mHandler = new Handler();
     private ArrayAdapter<String> feeAdapter;
     private ArrayAdapter<String> assetAdapter;
+
 
     public SendFragment() {
         // Required empty public constructor
@@ -154,6 +159,7 @@ public class SendFragment extends BaseFragment {
 
         WebView webViewFrom = (WebView) mView.findViewById(R.id.webViewAvatarFrom);
         loadWebView(webViewFrom, 40, encoder.result().toString());
+        webViewFrom.setOnTouchListener(this);
 
         TextView textView = (TextView) mView.findViewById(R.id.textViewFromId);
         String strId = String.format(
@@ -669,5 +675,27 @@ public class SendFragment extends BaseFragment {
             mEditTextQuantitiy.setText(Integer.toString(nAmount));
             mSpinner.setSelection(0);
         }
+    }
+
+    private final Handler handler = new Handler(this);
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (view.getId() == R.id.webViewAvatarFrom && motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+            handler.sendEmptyMessageDelayed(CLICK_ON_WEBVIEW, 500);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        if (msg.what == CLICK_ON_URL){
+            handler.removeMessages(CLICK_ON_WEBVIEW);
+            return true;
+        }
+        if (msg.what == CLICK_ON_WEBVIEW){
+            generateQR(mProcessHud, getActivity());
+            return true;
+        }
+        return false;
     }
 }
