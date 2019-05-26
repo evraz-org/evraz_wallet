@@ -368,7 +368,7 @@ public class NewMainActivity extends AppCompatActivity
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new KeysAdapter(this, keyPairs));
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this,R.style.CustomDialogTheme)
                 .setTitle(R.string.keys)
                 .setView(recyclerView)
                 .setPositiveButton(R.string.OK, null)
