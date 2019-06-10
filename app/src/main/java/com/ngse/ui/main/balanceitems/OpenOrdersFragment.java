@@ -92,6 +92,23 @@ public class OpenOrdersFragment extends BaseFragment
         return super.onOptionsItemSelected(item);
     }*/
 
+    private MenuItem backMenuItem;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        backMenuItem = menu.add(R.string.back)
+                .setIcon(R.drawable.abc_ic_ab_back_material)
+                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item == backMenuItem)
+            getActivity().onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
+
     public static OpenOrdersFragment newInstance() {
         OpenOrdersFragment fragment = new OpenOrdersFragment();
         return fragment;
