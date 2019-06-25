@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/textTotalBalance"
-            style="@style/EvrazTitle"
+            style="@style/EvrazSubtitile"
             android:layout_marginTop="8dp"
             android:text="@string/main_activity_loading" />
 
@@ -51,17 +51,16 @@
 
                 <TextView
                     android:id="@+id/textViewConvertBalance"
-                    style="@style/EvrazTitle"
+                    style="@style/EvrazSubtitile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="123456,000" />
 
                 <Spinner
-                    android:background="@android:color/transparent"
+                    android:backgroundTint="@color/beige_color"
                     android:id="@+id/spinnerConvertBalanceSign"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/support_simple_spinner_dropdown_item"
                     tools:text="USD"/>
 
             </LinearLayout>
