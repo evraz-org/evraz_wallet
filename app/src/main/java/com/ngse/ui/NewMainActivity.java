@@ -36,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,6 +97,7 @@ public class NewMainActivity extends AppCompatActivity
     private MainWalletFragment mWalletFragment;
     private TextView mTxtTitle;
     private LinearLayout mLayoutTitle;
+    private ImageView ivLogo;
 
 
     private static final int REQUEST_CODE_SETTINGS = 1;
@@ -150,6 +152,9 @@ public class NewMainActivity extends AppCompatActivity
 
     public void setTitleVisible(boolean visible) {
         mLayoutTitle.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+        if (ivLogo != null) {
+            ivLogo.setVisibility(!visible ? View.VISIBLE : View.INVISIBLE);
+        }
     }
 
     @Override
@@ -171,13 +176,14 @@ public class NewMainActivity extends AppCompatActivity
         mToolbar.setTitle("");
         // Toolbar: The title text does not support centering, so new text is created
         mLayoutTitle = (LinearLayout) mToolbar.findViewById(R.id.lay_title);
+        ivLogo = (ImageView) findViewById(R.id.ivLogo);
         mTxtTitle = (TextView) mToolbar.findViewById(R.id.txt_bar_title);
         updateTitle();
         setTitleVisible(false);
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BitsharesApplication.getInstance());
         List<String> arrValues = new ArrayList<>(prefs.getStringSet("pairs", new HashSet<>()));
-        if(arrValues.size() == 0) {
+        if (arrValues.size() == 0) {
             String[] fromRes = getResources().getStringArray(R.array.quotation_currency_pair_values);
             Set<String> pairsSet = new HashSet<>();
             Collections.addAll(pairsSet, fromRes);
@@ -286,7 +292,7 @@ public class NewMainActivity extends AppCompatActivity
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (view.getId() == R.id.webViewAvatar && motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+        if (view.getId() == R.id.webViewAvatar && motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             handler.sendEmptyMessageDelayed(CLICK_ON_WEBVIEW, 500);
         }
         return false;
@@ -294,29 +300,30 @@ public class NewMainActivity extends AppCompatActivity
 
     @Override
     public boolean handleMessage(Message msg) {
-        if (msg.what == CLICK_ON_URL){
+        if (msg.what == CLICK_ON_URL) {
             handler.removeMessages(CLICK_ON_WEBVIEW);
             return true;
         }
-        if (msg.what == CLICK_ON_WEBVIEW){
+        if (msg.what == CLICK_ON_WEBVIEW) {
             Utils.generateQR(mProcessHud, this);
             return true;
         }
         return false;
     }
+
     private void importKeys() {
         BitsharesWalletWraper wallet = BitsharesWalletWraper.getInstance();
-        if(wallet.is_locked()) {
+        if (wallet.is_locked()) {
             SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
-            if(p.contains("pass")) {
+            if (p.contains("pass")) {
                 wallet.unlock(p.getString("pass", ""));
                 List<Pair<String, String>> keyPairs = new ArrayList<>();
-                for(HashMap.Entry<types.public_key_type, types.private_key_type> keys : wallet.getKeys().entrySet()) {
+                for (HashMap.Entry<types.public_key_type, types.private_key_type> keys : wallet.getKeys().entrySet()) {
                     keyPairs.add(new Pair<>(keys.getKey().toString(), keys.getValue().toString()));
                 }
                 showKeys(keyPairs);
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialogTheme);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
                 final View viewGroup = getLayoutInflater().inflate(R.layout.dialog_password_confirm, null);
                 builder.setPositiveButton(
                         R.string.password_confirm_button_confirm,
@@ -357,7 +364,7 @@ public class NewMainActivity extends AppCompatActivity
             }
         } else {
             List<Pair<String, String>> keyPairs = new ArrayList<>();
-            for(HashMap.Entry<types.public_key_type, types.private_key_type> keys : wallet.getKeys().entrySet()) {
+            for (HashMap.Entry<types.public_key_type, types.private_key_type> keys : wallet.getKeys().entrySet()) {
                 keyPairs.add(new Pair<>(keys.getKey().toString(), keys.getValue().toString()));
             }
             showKeys(keyPairs);
@@ -368,7 +375,7 @@ public class NewMainActivity extends AppCompatActivity
         RecyclerView recyclerView = new RecyclerView(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new KeysAdapter(this, keyPairs));
-        AlertDialog dialog = new AlertDialog.Builder(this,R.style.CustomDialogTheme)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomDialogTheme)
                 .setTitle(R.string.keys)
                 .setView(recyclerView)
                 .setPositiveButton(R.string.OK, null)
@@ -461,7 +468,7 @@ public class NewMainActivity extends AppCompatActivity
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(BitsharesApplication.getInstance());
 
         List<String> arrValues = new ArrayList<>(prefs.getStringSet("pairs", new HashSet<>()));
-        if(arrValues.size() == 0) {
+        if (arrValues.size() == 0) {
             String[] fromRes = getResources().getStringArray(R.array.quotation_currency_pair_values);
             Set<String> pairsSet = new HashSet<>();
             Collections.addAll(pairsSet, fromRes);
@@ -474,7 +481,7 @@ public class NewMainActivity extends AppCompatActivity
 
 
         CharSequence[] dataForDialog = new CharSequence[arrValues.size()];
-        for(int i = 0; i < dataForDialog.length; i++) {
+        for (int i = 0; i < dataForDialog.length; i++) {
             dataForDialog[i] = arrValues.get(i);
         }
 

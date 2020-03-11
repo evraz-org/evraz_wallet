@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name_full">Evraz Wallet</string>
     <string name="app_name">Evraz Wallet</string>
-    <string name="auth_title" translatable="false">Bitshares blockhain</string>
+    <string name="auth_title" translatable="false">Bitshares blockchain</string>
 
     <string name="back">back</string>
     <string name="registration">Sign up</string>

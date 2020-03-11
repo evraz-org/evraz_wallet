@@ -26,7 +26,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
-        Preference preference = findPreference("currency_setting");
+        /*Preference preference = findPreference("currency_setting");
         preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -35,7 +35,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 getActivity().setResult(Activity.RESULT_OK, intent);
                 return true;
             }
-        });
+        });*/
 
         Preference pairSelectPreference = findPreference("quotation_currency_pair");
         pairSelectPreference.setOnPreferenceClickListener(p -> {

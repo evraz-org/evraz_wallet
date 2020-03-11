@@ -8,6 +8,7 @@
     tools:context="com.bitshares.bitshareswallet.MainActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="0dp"
@@ -45,11 +46,22 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     app:srcCompat="@mipmap/ic_more" />
+
             </LinearLayout>
 
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
+
+
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/evraz"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        />
 
     <com.bitshares.bitshareswallet.NonScrollViewPager
         android:id="@+id/viewPager"

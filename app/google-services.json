@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "580714324726",
+    "firebase_url": "https://evrazwallet-211210.firebaseio.com",
+    "project_id": "evrazwallet-211210",
+    "storage_bucket": "evrazwallet-211210.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580714324726:android:63f5d2e2461bcf45",
+        "android_client_info": {
+          "package_name": "org.evrazcoin.evrazwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580714324726-btk4vf92g44rssjs40l4o8o8pkhae3ah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdEUZP-BN_98LFqB7zF0MCKKkXmtp3U2M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580714324726:android:14c9db94733cd27e",
+        "android_client_info": {
+          "package_name": "org.evrazcoin.evrazwallet.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580714324726-btk4vf92g44rssjs40l4o8o8pkhae3ah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdEUZP-BN_98LFqB7zF0MCKKkXmtp3U2M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

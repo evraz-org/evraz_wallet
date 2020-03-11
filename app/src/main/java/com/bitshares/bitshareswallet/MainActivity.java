@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity
     private BtsFragmentPageAdapter mMainFragmentPageAdapter;
     private TextView mTxtTitle;
     private LinearLayout mLayoutTitle;
+    private ImageView ivLogo;
     private BottomNavigationView mBottomNavigation;
     private Handler mHandler = new Handler();
 
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setTitleVisible(boolean visible){
         mLayoutTitle.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+        ivLogo.setVisibility(!visible ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
@@ -137,6 +140,7 @@ public class MainActivity extends AppCompatActivity
         mToolbar.setTitle("");
         // Toolbar的标题文本不支持居中，故创建了新文本
         mLayoutTitle = (LinearLayout) mToolbar.findViewById(R.id.lay_title);
+        ivLogo = (ImageView) findViewById(R.id.ivLogo);
         mTxtTitle = (TextView) mToolbar.findViewById(R.id.txt_bar_title);
         updateTitle();
         setTitleVisible(false);

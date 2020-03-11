@@ -1,5 +1,6 @@
 package com.ngse.ui.main.trading;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,14 @@ public class TransactionSellBuyRecyclerViewAdapter extends RecyclerView.Adapter<
     private List<Order> list;
     private boolean reversePosition = false;
 
+    private boolean isBuy = false;
+
     public TransactionSellBuyRecyclerViewAdapter() {
 
+    }
+
+    public TransactionSellBuyRecyclerViewAdapter(boolean isBuy) {
+        this.isBuy = isBuy;
     }
 
     public void setList(List<Order> list) {
@@ -38,7 +45,7 @@ public class TransactionSellBuyRecyclerViewAdapter extends RecyclerView.Adapter<
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.update(list.get(position));
+        holder.update(list.get(position), holder.view);
     }
 
     @Override
@@ -59,7 +66,9 @@ public class TransactionSellBuyRecyclerViewAdapter extends RecyclerView.Adapter<
             btsTextView = (TextView) view.findViewById(R.id.bts_text);
         }
 
-        public void update(Order order) {
+        public void update(Order order, View view) {
+            priceTextView.setTextColor(ContextCompat.getColor(view.getContext(), isBuy && !reversePosition ? R.color.light_green_color : R.color.table_gray_color));
+            btsTextView.setTextColor(ContextCompat.getColor(view.getContext(), !isBuy && reversePosition ? R.color.red : R.color.table_gray_color));
             priceTextView.setText(!reversePosition ? String.format("%.5f", order.price) : String.format("%.5f", order.quote));
             btsTextView.setText(!reversePosition ? String.format("%.5f", order.quote) : String.format("%.5f", order.price));
         }

@@ -242,12 +242,12 @@ public class TradingOrdersFragment extends BaseFragment
 
         buyRecyclerView = view.findViewById(R.id.buy_recycler);
         buyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        buyRecyclerViewAdapter = new TransactionSellBuyRecyclerViewAdapter();
+        buyRecyclerViewAdapter = new TransactionSellBuyRecyclerViewAdapter(true);
         buyRecyclerView.setAdapter(buyRecyclerViewAdapter);
         buyRecyclerView.setItemAnimator(null);
 
         sellRecyclerView = view.findViewById(R.id.sell_recycler);
-        sellRecyclerViewAdapter = new TransactionSellBuyRecyclerViewAdapter();
+        sellRecyclerViewAdapter = new TransactionSellBuyRecyclerViewAdapter(false);
         sellRecyclerView.setAdapter(sellRecyclerViewAdapter);
         sellRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         sellRecyclerView.setItemAnimator(null);

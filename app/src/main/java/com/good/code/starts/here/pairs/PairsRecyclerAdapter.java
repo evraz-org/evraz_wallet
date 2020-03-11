@@ -102,13 +102,15 @@ public class PairsRecyclerAdapter extends RecyclerView.Adapter<PairsRecyclerAdap
         return pairs.size();
     }
 
-    public void add(String pairStr) {
+    public boolean add(String pairStr) {
         Set<String> temp = preferences.getStringSet("pairs", new HashSet<>());
         if(temp.add(pairStr)) {
             pairs.add(pairStr);
             preferences.edit().putStringSet("pairs", temp).apply();
+            return true;
         } else {
             Toast.makeText(context, R.string.add_pair_exist, Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
