@@ -2,7 +2,7 @@
 def versionMajor = 0
 def versionMinor = 5
 def versionPatch = 2
-def versionBuild = 1
+def versionBuild = 2
 
 buildscript {
     repositories {
@@ -41,6 +41,12 @@ android {
             }
         }
     }
+    /*
+    RELEASE_STORE_FILE=../../evraz.jks
+RELEASE_STORE_PASSWORD=pZzE8TYyZ1pi
+RELEASE_KEY_ALIAS=evraz
+RELEASE_KEY_PASSWORD=6HU3FhLbniew
+     */
     signingConfigs {
         release {
 
