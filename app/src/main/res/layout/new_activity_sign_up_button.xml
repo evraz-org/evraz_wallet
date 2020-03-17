@@ -1,52 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
+    android:background="@drawable/bg_main"
     android:fitsSystemWindows="true">
+
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/fon"/>
-    <ImageView
-        android:id="@+id/logoImage"
-        android:layout_width="296dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="150dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/ivLogo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@mipmap/new_logo"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logo_evraz" />
+        />
 
-    <TextView
-        android:id="@+id/walletText"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:lineSpacingExtra="4sp"
-        android:text="@string/wallet"
-        android:textColor="@color/beige_color"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="@id/logoImage"
-        app:layout_constraintTop_toBottomOf="@id/logoImage" />
-
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/auth_title"
-        android:textColor="#a99d9d"
-        android:textSize="20sp"
+        android:src="@drawable/logo_evrazz"
+        android:layout_marginTop="88dp"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/walletText" />
+        app:layout_constraintTop_toBottomOf="@+id/ivLogo"/>
 
     <TextView
         android:id="@+id/buttonLogin"
@@ -54,38 +32,37 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_default_background"
-        android:lineSpacingExtra="6sp"
-        android:paddingBottom="8dp"
-        android:paddingEnd="32dp"
         android:gravity="center"
+        android:lineSpacingExtra="6sp"
         android:paddingStart="32dp"
-        android:paddingTop="8dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="4dp"
         android:text="@string/auth"
-        android:textColor="#ededed"
+        android:textColor="@color/semi_yellow"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/sign_up_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
         android:id="@+id/sign_up_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="121dp"
         android:background="@drawable/btn_default_background"
-        android:lineSpacingExtra="6sp"
-        android:paddingBottom="8dp"
-        android:paddingEnd="32dp"
-        android:paddingStart="32dp"
-        android:paddingTop="8dp"
         android:gravity="center"
+        android:lineSpacingExtra="6sp"
+        android:paddingStart="32dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="32dp"
+        android:paddingBottom="4dp"
         android:text="@string/registration"
-        android:textColor="#ededed"
+        android:textColor="@color/semi_yellow"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/buttonLogin"
-        app:layout_constraintStart_toStartOf="@id/buttonLogin"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+        app:layout_constraintStart_toStartOf="@id/buttonLogin" />
 
 </android.support.constraint.ConstraintLayout>

@@ -141,8 +141,10 @@ public class ExchangeFragment extends BaseFragment {
                                     BitsharesMarketTicker item = marketTickerListResource.data.get(i);
                                     if (
                                             item.marketTicker.base.equals("BTC") ||
+                                                    item.marketTicker.base.equals("BTS") ||
                                                     item.marketTicker.base.equals("EVRAZ") ||
                                                     item.marketTicker.quote.equals("BTC") ||
+                                                    item.marketTicker.quote.equals("BTS") ||
                                                     item.marketTicker.quote.equals("EVRAZ")) {
                                         container.add(item);
                                     }
@@ -158,8 +160,10 @@ public class ExchangeFragment extends BaseFragment {
                                 BitsharesMarketTicker item = marketTickerListResource.data.get(i);
                                 if (
                                         item.marketTicker.base.equals("BTC") ||
+                                                item.marketTicker.base.equals("BTS") ||
                                                 item.marketTicker.base.equals("EVRAZ") ||
                                                 item.marketTicker.quote.equals("BTC") ||
+                                                item.marketTicker.quote.equals("BTS") ||
                                                 item.marketTicker.quote.equals("EVRAZ")) {
                                     container.add(item);
                                 }

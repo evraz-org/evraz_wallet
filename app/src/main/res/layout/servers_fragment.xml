@@ -19,6 +19,6 @@
         android:layout_margin="8dp"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/light_green_color"
         app:srcCompat="@drawable/ic_plus" />
 </FrameLayout>

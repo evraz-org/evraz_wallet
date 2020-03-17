@@ -32,6 +32,8 @@
     <!--new-->
     <color name="beige_color">#f6efcc</color>
     <color name="gray_color">#424242</color>
+    <color name="gringo">#524C42</color>
+    <color name="semi_yellow">#FFEBCC</color>
     <color name="table_gray_color">#ededed</color>
     <color name="light_gray_color">#938e8e</color>
     <color name="dark_gray_color">#2e2e2e</color>
