@@ -52,6 +52,8 @@
                         android:layout_height="44dp"
                         android:layout_marginLeft="8dp"
                         android:layout_toRightOf="@id/webViewAvatarFrom"
+                        android:layout_toLeftOf="@+id/qrUser"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/btn_default_background"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
@@ -70,12 +72,25 @@
                         android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/editTextFrom"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignRight="@+id/editTextFrom"
                         android:layout_marginBottom="12dp"
                         android:layout_marginRight="8dp"
                         tools:text="#22222"
                         android:textColor="@color/beige_color"
                         android:textSize="@dimen/send_fragment_text_size" />
+
+
+
+                    <ImageView
+                        android:id="@+id/qrUser"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        tools:text="#22222"
+                        android:layout_marginBottom="12dp"
+                        app:srcCompat="@drawable/qrcode_scan" />
 
                 </RelativeLayout>
 

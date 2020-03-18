@@ -25,6 +25,8 @@
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingBottom="100dp"
+        android:clipToPadding="false"
         android:layout_marginTop="1dp"
         android:background="@color/dark_gray_color"
         tools:listitem="@layout/new_recyclerview_item_currency_pair"
@@ -44,7 +46,7 @@
         android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:backgroundTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/light_green_color"
         app:srcCompat="@drawable/ic_plus" />
 
 </android.support.constraint.ConstraintLayout>

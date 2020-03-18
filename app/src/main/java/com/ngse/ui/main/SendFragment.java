@@ -167,6 +167,8 @@ public class SendFragment extends BaseFragment implements View.OnTouchListener,H
                 BitsharesWalletWraper.getInstance().get_account().id.get_instance()
         );
         textView.setText(strId);
+        ImageView ivUser = mView.findViewById(R.id.qrUser);
+        ivUser.setOnClickListener(v -> generateQR(mProcessHud, getActivity()));
 
         mProcessHud = KProgressHUD.create(getActivity())
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -693,7 +695,7 @@ public class SendFragment extends BaseFragment implements View.OnTouchListener,H
             return true;
         }
         if (msg.what == CLICK_ON_WEBVIEW){
-            generateQR(mProcessHud, getActivity());
+            //generateQR(mProcessHud, getActivity());
             return true;
         }
         return false;

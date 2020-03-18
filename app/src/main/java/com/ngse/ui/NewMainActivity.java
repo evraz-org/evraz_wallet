@@ -490,6 +490,24 @@ public class NewMainActivity extends AppCompatActivity
             Collections.addAll(arrValues, fromRes);
             prefs.edit().putStringSet("pairs", pairsSet).apply();
         }
+        ArrayList<String> newArrValuesContainer = new ArrayList<>();
+        for (int i = 0; i < arrValues.size(); i++) {
+            String quotes[] = arrValues.get(i).split(":");
+            String quote = quotes[0];
+            String base = quotes[1];
+            if (quote.contains("BTC") ||
+                    quote.contains("BTS") ||
+                    quote.contains("EVRAZ") ||
+                    base.contains("BTC") ||
+                    base.contains("BTS") ||
+                    base.contains("EVRAZ")) {
+                String currencyPair = utils.getAssetSymbolDisply(quote) + ":" +
+                        utils.getAssetSymbolDisply(base);
+
+                newArrValuesContainer.add(currencyPair);
+            }
+        }
+        arrValues = newArrValuesContainer;
 
         String strCurrencySetting = prefs.getString("quotation_currency_pair", "BTS:USD");
         int currSelectIndex = arrValues.indexOf(strCurrencySetting);
@@ -500,14 +518,15 @@ public class NewMainActivity extends AppCompatActivity
             dataForDialog[i] = arrValues.get(i);
         }
 
+        List<String> finalArrValues = arrValues;
         dialogBuilder.setSingleChoiceItems(dataForDialog, currSelectIndex, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 prefs.edit().
-                        putString("quotation_currency_pair", arrValues.get(which))
+                        putString("quotation_currency_pair", finalArrValues.get(which))
                         .apply();
-                String strAsset[] = arrValues.get(which).split(":");
+                String strAsset[] = finalArrValues.get(which).split(":");
                 QuotationViewModel viewModel = ViewModelProviders.of(NewMainActivity.this).get(QuotationViewModel.class);
                 viewModel.selectedMarketTicker(new Pair(strAsset[1], strAsset[0]));
 

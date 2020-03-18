@@ -68,17 +68,14 @@ public class ExchangeFragment extends BaseFragment {
 
 
         QuotationViewModel viewModel = ViewModelProviders.of(getActivity()).get(QuotationViewModel.class);
-        quotationCurrencyPairAdapter.setOnItemClickListenr(new QuotationCurrencyPairAdapter.OnItemClickListner() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //mListener.notifyCurrencyPairChange();
-                if (quotationCurrencyPairAdapter.getSelectedMarketTicker() != null) {
-                    MarketTicker marketTicker = quotationCurrencyPairAdapter.getSelectedMarketTicker().marketTicker;
-                    viewModel.selectedMarketTicker(new Pair(marketTicker.base, marketTicker.quote));
-                    ((NewMainActivity) getActivity()).showTradingScheduleFragment();
-                }
-
+        quotationCurrencyPairAdapter.setOnItemClickListenr((view1, position) -> {
+            //mListener.notifyCurrencyPairChange();
+            if (quotationCurrencyPairAdapter.getSelectedMarketTicker() != null) {
+                MarketTicker marketTicker = quotationCurrencyPairAdapter.getSelectedMarketTicker().marketTicker;
+                viewModel.selectedMarketTicker(new Pair(marketTicker.base, marketTicker.quote));
+                ((NewMainActivity) getActivity()).showTradingScheduleFragment();
             }
+
         });
 
         fabAddPair = view.findViewById(R.id.addServer);
@@ -126,7 +123,13 @@ public class ExchangeFragment extends BaseFragment {
     @Override
     public void onShow() {
         super.onShow();
+        quotationCurrencyPairAdapter.setOnItemsClickListener(position -> {
+            showData();
+        });
+        showData();
+    }
 
+    void showData(){
         QuotationViewModel viewModel = ViewModelProviders.of(getActivity()).get(QuotationViewModel.class);
         viewModel.getMarketTicker().observe(
                 this,
@@ -140,10 +143,12 @@ public class ExchangeFragment extends BaseFragment {
                                 for (int i = 0; i < marketTickerListResource.data.size(); i++) {
                                     BitsharesMarketTicker item = marketTickerListResource.data.get(i);
                                     if (
-                                            item.marketTicker.base.equals("BTC") ||
-                                                    item.marketTicker.base.equals("EVRAZ") ||
-                                                    item.marketTicker.quote.equals("BTC") ||
-                                                    item.marketTicker.quote.equals("EVRAZ")) {
+                                            item.marketTicker.base.contains("BTC") ||
+                                                    item.marketTicker.base.contains("BTS") ||
+                                                    item.marketTicker.base.contains("EVRAZ") ||
+                                                    item.marketTicker.quote.contains("BTC") ||
+                                                    item.marketTicker.quote.contains("BTS") ||
+                                                    item.marketTicker.quote.contains("EVRAZ")) {
                                         container.add(item);
                                     }
                                 }
@@ -157,10 +162,12 @@ public class ExchangeFragment extends BaseFragment {
                             for (int i = 0; i < marketTickerListResource.data.size(); i++) {
                                 BitsharesMarketTicker item = marketTickerListResource.data.get(i);
                                 if (
-                                        item.marketTicker.base.equals("BTC") ||
-                                                item.marketTicker.base.equals("EVRAZ") ||
-                                                item.marketTicker.quote.equals("BTC") ||
-                                                item.marketTicker.quote.equals("EVRAZ")) {
+                                        item.marketTicker.base.contains("BTC") ||
+                                                item.marketTicker.base.contains("BTS") ||
+                                                item.marketTicker.base.contains("EVRAZ") ||
+                                                item.marketTicker.quote.contains("BTC") ||
+                                                item.marketTicker.quote.contains("BTS") ||
+                                                item.marketTicker.quote.contains("EVRAZ")) {
                                     container.add(item);
                                 }
                             }

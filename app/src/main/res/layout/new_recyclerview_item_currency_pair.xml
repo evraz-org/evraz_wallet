@@ -1,69 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeLayout"
     android:layout_width="match_parent"
     android:layout_height="70dp">
 
-    <View
-        android:id="@+id/viewSelected"
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-        android:background="@color/background_color"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:id="@+id/imageViewCurrency"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/bottomConstraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:visibility="gone"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="8dp"
-        android:scaleType="center"
-        android:src="@mipmap/create_account" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textViewCurrencyPair"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/imageViewCurrency"
-        android:gravity="center_vertical"
-        android:text="BTC : USD"
-        android:textAllCaps="true"
-        android:textColor="@color/beige_color"
-        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textViewPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="3dp"
-        android:layout_toLeftOf="@+id/textView24h"
+        <View
+            android:id="@+id/unlockButtonBgView"
+            android:layout_width="103dp"
+            android:layout_height="0dp"
+            android:background="@color/black_overlay"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        android:gravity="center_vertical|right"
-        android:text="N/A"
-        android:textColor="@color/beige_color" />
+        <ImageView
+            android:id="@+id/deleteButtonIconImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/unlockButtonBgView"
+            app:layout_constraintStart_toStartOf="@id/unlockButtonBgView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="ContentDescription" />
 
-    <TextView
-        android:id="@+id/textView24h"
-        android:layout_width="54dp"
-        android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="13dp"
-        android:background="@drawable/oval_green_background"
-        android:gravity="center"
-        android:text="-10%"
-        android:textColor="@android:color/black"
-        android:textSize="12sp" />
+        <View
+            android:layout_width="103dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/grey" />
+    </android.support.constraint.ConstraintLayout>
 
-    <View
+    <RelativeLayout
+        android:id="@+id/rlMain"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/grey" />
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/viewSelected"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:background="@color/background_color"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/imageViewCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="8dp"
+            android:scaleType="center"
+            android:src="@mipmap/create_account"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textViewCurrencyPair"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/imageViewCurrency"
+            android:gravity="center_vertical"
+            android:text="BTC : USD"
+            android:textAllCaps="true"
+            android:textColor="@color/beige_color"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textViewPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@+id/textView24h"
+
+            android:gravity="center_vertical|right"
+            android:text="N/A"
+            android:textColor="@color/beige_color" />
+
+        <TextView
+            android:id="@+id/textView24h"
+            android:layout_width="54dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="13dp"
+            android:background="@drawable/oval_green_background"
+            android:gravity="center"
+            android:text="-10%"
+            android:textColor="@android:color/black"
+            android:textSize="12sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/grey" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</com.daimajia.swipe.SwipeLayout>

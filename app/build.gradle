@@ -2,7 +2,7 @@
 def versionMajor = 0
 def versionMinor = 5
 def versionPatch = 2
-def versionBuild = 1
+def versionBuild = 3
 
 buildscript {
     repositories {
@@ -41,6 +41,12 @@ android {
             }
         }
     }
+    /*
+    RELEASE_STORE_FILE=../../evraz.jks
+RELEASE_STORE_PASSWORD=pZzE8TYyZ1pi
+RELEASE_KEY_ALIAS=evraz
+RELEASE_KEY_PASSWORD=6HU3FhLbniew
+     */
     signingConfigs {
         release {
 
@@ -126,7 +132,7 @@ dependencies {
     }
     implementation 'com.android.support:multidex:1.0.2'
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.android.support:preference-v7:26.1.0'
     implementation 'com.android.support:preference-v14:26.1.0'
@@ -163,6 +169,7 @@ dependencies {
 
     implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
     implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation 'com.daimajia.swipelayout:library:1.2.0'
 
     implementation 'com.android.installreferrer:installreferrer:1.1.1'
 }

@@ -11,7 +11,7 @@
     <application
         android:name="com.bitshares.bitshareswallet.BitsharesApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/new_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
@@ -67,6 +67,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme" />
         <activity android:name="com.jakewharton.processphoenix.ProcessPhoenix" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.homefolder.example.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!-- ressource file to create -->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
 
     </application>
 
