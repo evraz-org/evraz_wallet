@@ -70,6 +70,17 @@ public class QuotationCurrencyPairAdapter extends RecyclerSwipeAdapter<Quotation
     //    private Set<String> currecnyPairSet = new HashSet<>();
     private int selected = 0;
 
+    interface OnItemsClickListener {
+        void onDeleteClicked(int position);
+    }
+
+    public OnItemsClickListener onItemsClickListener;
+
+    public void setOnItemsClickListener(OnItemsClickListener onItemsClickListener) {
+        this.onItemsClickListener = onItemsClickListener;
+    }
+
+
     public QuotationCurrencyPairAdapter(Context context) {
         mContext = context;
         marrOptions = context.getResources().getStringArray(R.array.quotation_currency_pair_options);
@@ -176,6 +187,9 @@ public class QuotationCurrencyPairAdapter extends RecyclerSwipeAdapter<Quotation
                 temp.remove(currPair);
                 preferences.edit().putStringSet("pairs", temp).apply();
                 notifyItemRemoved(holder.getAdapterPosition());
+                if (onItemsClickListener != null) {
+                    onItemsClickListener.onDeleteClicked(holder.getAdapterPosition());
+                }
             }
         });
     }
@@ -199,8 +213,18 @@ public class QuotationCurrencyPairAdapter extends RecyclerSwipeAdapter<Quotation
 //        currecnyPairSet.addAll(arrValues);
         bitsharesMarketTickerList = new ArrayList<>();
         for (BitsharesMarketTicker bitsharesMarketTicker : marketTickerList) {
-            if (currecnyPairSet.contains(bitsharesMarketTicker.marketTicker.quote + ":" + bitsharesMarketTicker.marketTicker.base)) {
-                bitsharesMarketTickerList.add(bitsharesMarketTicker);
+            String quote = bitsharesMarketTicker.marketTicker.quote;
+            String base = bitsharesMarketTicker.marketTicker.base;
+            String condition = quote + ":" + base;
+            if (quote.contains("BTC") ||
+                    quote.contains("BTS") ||
+                    quote.contains("EVRAZ") ||
+                    base.contains("BTC") ||
+                    base.contains("BTS") ||
+                    base.contains("EVRAZ")) {
+                if (currecnyPairSet.contains(condition)) {
+                    bitsharesMarketTickerList.add(bitsharesMarketTicker);
+                }
             }
         }
 

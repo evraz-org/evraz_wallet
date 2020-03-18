@@ -1,14 +1,20 @@
 package com.ngse.utility;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bitshares.bitshareswallet.ColorUtils;
@@ -29,6 +35,7 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -84,7 +91,7 @@ public class Utils {
     }
 
     public static String formatDecimal(double num) {
-        if (Double.compare(.00001, num) >   0) {
+        if (Double.compare(.00001, num) > 0) {
             return decimalFormat8.format(num);
         } else if (Double.compare(.001, num) > 0) {
             return decimalFormat5.format(num);
@@ -93,7 +100,7 @@ public class Utils {
         }
     }
 
-    public static  void generateQR(KProgressHUD progressHUD, Activity activity) {
+    public static void generateQR(KProgressHUD progressHUD, Activity activity) {
         progressHUD.show();
         new Thread(() -> {
             String data = "btswallet" + BitsharesWalletWraper.getInstance().get_account().name + "'0' ";
@@ -109,19 +116,37 @@ public class Utils {
                     }
                 }
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    ImageView imageView = new ImageView(activity);
-                    imageView.setImageBitmap(bmp);
-
-                    AlertDialog dialog = new AlertDialog.Builder(activity   )
-                            .setView(imageView)
+                    View view = activity.getLayoutInflater().inflate(R.layout.dialog_qr, null);
+                    AlertDialog dialog = new AlertDialog.Builder(activity)
+                            .setView(view)
                             .setTitle("")
-                            .setNeutralButton(R.string.label_ok,null)
-                            .setPositiveButton(R.string.share, (dialogInterface, i) -> {
-                                shareImage(activity, bmp);
-                            })
+                            //.setNeutralButton(R.string.label_ok, null)
+                            //.setPositiveButton(R.string.share, (dialogInterface, i) -> {
+                            //    shareImage(activity, bmp);
+                            //})
                             .create();
 
                     dialog.show();
+                    view.findViewById(R.id.ivShare).setOnClickListener(v ->
+                            {
+                                String[] permissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
+                                if (isPermissionGranted(activity, permissions)) {
+                                    shareImage(activity, bmp);
+                                    dialog.dismiss();
+                                } else {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        activity.requestPermissions(permissions, 1001);
+                                    }
+                                }
+                            }
+                    );
+                    ((ImageView) view.findViewById(R.id.ivQr)).setImageBitmap(bmp);
+                    view.findViewById(R.id.tvOk).setOnClickListener(v -> {
+                        dialog.dismiss();
+                    });
+                    /*ImageView imageView = new ImageView(activity);
+                    imageView.setImageBitmap(bmp);*/
+
                     progressHUD.dismiss();
                 });
             } catch (WriterException e) {
@@ -130,10 +155,22 @@ public class Utils {
         }).start();
     }
 
-    public static void shareImage(Context context,Bitmap bitmap){
-        String file_path = DebugUtility.getTempPath(context,"bitshare_qrcode");
+    static boolean isPermissionGranted(Context context, String[] permissions) {
+        ArrayList<String> nonGrantedPermissions = new ArrayList<>();
+        for (int i = 0; i < permissions.length; i++) {
+            String it = permissions[i];
+            if (ActivityCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED) {
+                nonGrantedPermissions.add(it);
+            }
+        }
+        return nonGrantedPermissions.isEmpty();
+    }
+
+
+    public static void shareImage(Context context, Bitmap bitmap) {
+        String file_path = DebugUtility.getTempPath(context, "bitshare_qrcode");
         File dir = new File(file_path);
-        if(!dir.exists())
+        if (!dir.exists())
             dir.mkdirs();
 
         String format = new SimpleDateFormat("yyyyMMddHHmmss",
@@ -149,14 +186,21 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Uri uri = Uri.fromFile(file);
+        Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uri = FileProvider.getUriForFile(
+                    context,
+                    "com.example.homefolder.example.provider", //(use your app signature + ".provider" )
+                    file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("image/*");
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
         intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
 
-        context.startActivity(Intent.createChooser(intent,"Sharing something"));
+        context.startActivity(Intent.createChooser(intent, "Sharing something"));
     }
 }

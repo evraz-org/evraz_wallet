@@ -7,7 +7,7 @@ import android.support.v7.preference.PreferenceManager;
 public class ColorUtils {
 
     public static int getMainColor(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getInt("color", Color.parseColor("#303f9f"));
+        return PreferenceManager.getDefaultSharedPreferences(context).getInt("color", Color.parseColor("#000000"));
     }
 
     public static int manipulateColor(int color, float factor) {

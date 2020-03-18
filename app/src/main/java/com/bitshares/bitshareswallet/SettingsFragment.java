@@ -54,46 +54,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             return true;
         });
 
-        Preference hidePreference = findPreference("hide");
-        hidePreference.setOnPreferenceClickListener(p -> {
-
-            ProgressDialog progressDialog = ProgressDialog.show(getActivity(),getString(R.string.loading_assets), "");
-            BitsharesApplication.getInstance().getBitsharesDatabase().getBitsharesDao().queryAvaliableBalances("USD").observe(this, bitsharesBalanceAssets -> {
-
-                if(!loaded) {
-                    loaded = true;
-                    List<String> symbolList = new ArrayList<>();
-                    symbolList.add("FINTEH");
-                    for (BitsharesBalanceAsset bitsharesBalanceAsset : bitsharesBalanceAssets) {
-                        if (!bitsharesBalanceAsset.quote.equals("FINTEH"))
-                            symbolList.add(bitsharesBalanceAsset.quote);
-                    }
-
-                    RecyclerView recyclerView = new RecyclerView(getActivity());
-
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    TokenHideAdapter adapter = new TokenHideAdapter(getActivity(), symbolList);
-                    recyclerView.setAdapter(adapter);
-
-                    AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                            .setTitle(R.string.hide)
-                            .setView(recyclerView)
-                            .setPositiveButton(R.string.save, (dialog1, which) -> {
-                                adapter.save();
-                                loaded = false;
-                            })
-                            .setNegativeButton(R.string.cancel, ((dialog2, which) -> {
-                                loaded = false;
-                            } ))
-                            .create();
-
-                    progressDialog.dismiss();
-                    dialog.show();
-                }
-            });
-            return true;
-        });
-
         Preference serverSelectPreference = findPreference("full_node_api_server");
         serverSelectPreference.setOnPreferenceClickListener(p -> {
             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ServersFragment.newInstance()).addToBackStack(null).commit();
