@@ -5,7 +5,7 @@ package com.bitshares.bitshareswallet.room;
  */
 
 public class BitsharesBalanceAsset {
-    int id;
+    public int id;
     public long amount;
     public String base;
     public long base_precision;

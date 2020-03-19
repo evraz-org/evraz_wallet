@@ -177,6 +177,7 @@ public class NewMainActivity extends AppCompatActivity
             mReferrerClient.startConnection(this);
         }
 
+
         mProcessHud = KProgressHUD.create(this)
                 .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
                 .setLabel("Please Wait")

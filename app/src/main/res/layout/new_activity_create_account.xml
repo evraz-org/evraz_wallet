@@ -61,6 +61,7 @@
                             style="@style/EvrazEditTextStyle"
                             android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
                             android:gravity="center_vertical"
+                            android:textAllCaps="false"
                             android:inputType="textNoSuggestions" />
 
                         <ImageView

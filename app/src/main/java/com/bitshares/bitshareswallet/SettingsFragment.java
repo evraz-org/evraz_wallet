@@ -22,6 +22,9 @@ import com.good.code.starts.here.TokenHideAdapter;
 import com.good.code.starts.here.pairs.PairsFragment;
 
 import com.good.code.starts.here.servers.ServersFragment;
+import com.ngse.ui.FragmentContainerActivity;
+import com.ngse.ui.NewMainActivity;
+import com.ngse.ui.main.balanceitems.PortfolioFragment;
 
 import org.evrazcoin.evrazwallet.R;
 

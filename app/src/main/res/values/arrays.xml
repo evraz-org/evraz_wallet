@@ -65,6 +65,9 @@
         <item>wss://atlanta.bitshares.apasia.tech/ws</item>
         <item>wss://dex.rnglab.org</item>
         <item>wss://citadel.li/node</item>
+        <item>wss://api.dex.trading/</item>
+        <item>wss://btsws.roelandp.nl/ws</item>
+        <item>wss://dex.iobanker.com:9090</item>
     </string-array>
 
     <string-array name="full_node_api_server_values">
@@ -76,6 +79,9 @@
         <item>wss://atlanta.bitshares.apasia.tech/ws</item>
         <item>wss://dex.rnglab.org</item>
         <item>wss://citadel.li/node</item>
+        <item>wss://api.dex.trading/</item>
+        <item>wss://btsws.roelandp.nl/ws</item>
+        <item>wss://dex.iobanker.com:9090</item>
     </string-array>
 
 </resources>

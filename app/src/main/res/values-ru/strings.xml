@@ -258,4 +258,8 @@
     <string name="Public_key">Публичный ключ</string>
     <string name="Private_key">Приватный ключ</string>
     <string name="show_keys">Ключи</string>
+    <string name="hided">Скрытые</string>
+    <string name="opened">Открытые</string>
+    <string name="hidden_assets">Скрытые активы</string>
+
 </resources>

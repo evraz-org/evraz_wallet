@@ -2,8 +2,11 @@ package com.ngse.ui.main.balanceitems;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,15 +15,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bitshares.bitshareswallet.BaseFragment;
 import com.bitshares.bitshareswallet.room.BitsharesBalanceAsset;
 import com.bitshares.bitshareswallet.viewmodel.WalletViewModel;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.ngse.ui.FragmentContainerActivity;
 import com.ngse.utility.Utils;
 
 import org.evrazcoin.evrazwallet.R;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -33,6 +42,48 @@ public class PortfolioFragment extends BaseFragment {
 
     private OnFragmentInteractionListener mListener;
     private MenuItem backMenuItem;
+
+    public interface OnPortfolioAction {
+        void makeHideClicked(BitsharesBalanceAsset bitsharesBalanceAsset);
+
+        void makeVisibleClicked(BitsharesBalanceAsset bitsharesBalanceAsset);
+    }
+
+    private SharedPreferences getSharedPreferences() {
+        return PreferenceManager.getDefaultSharedPreferences(getContext());
+    }
+
+    private void addToHide(BitsharesBalanceAsset asset) {
+        ArrayList<BitsharesBalanceAsset> hiddenAssets = getHiddenAssetsList();
+        hiddenAssets.add(asset);
+        getSharedPreferences().edit().putString("hidden_assets", new Gson().toJson(hiddenAssets)).apply();
+    }
+
+    private void removeFromHide(BitsharesBalanceAsset asset) {
+        ArrayList<BitsharesBalanceAsset> hiddenAssets = getHiddenAssetsList();
+        for (int i = 0; i < hiddenAssets.size(); i++) {
+            BitsharesBalanceAsset hiddenAsset = hiddenAssets.get(i);
+            if (hiddenAsset.quote.equals(asset.quote)){
+                hiddenAssets.remove(hiddenAsset);
+            }
+        }
+        getSharedPreferences().edit().putString("hidden_assets", new Gson().toJson(hiddenAssets)).apply();
+    }
+
+    public String getHiddenAssets() {
+        return getSharedPreferences().getString("hidden_assets", "");
+    }
+
+    public ArrayList<BitsharesBalanceAsset> getHiddenAssetsList() {
+        Type type = new TypeToken<List<BitsharesBalanceAsset>>() {
+        }.getType();
+        ArrayList<BitsharesBalanceAsset> hiddenAssets = new Gson().fromJson(getHiddenAssets(), type);
+        if (hiddenAssets == null) {
+            return new ArrayList<>();
+        } else {
+            return hiddenAssets;
+        }
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -53,26 +104,68 @@ public class PortfolioFragment extends BaseFragment {
         return new PortfolioFragment();
     }
 
+    public static String IS_HIDDEN_KEY = "PortfolioFragment.isHiddenAssets";
+
+    public static PortfolioFragment newInstance(boolean isHiddenAssets) {
+        PortfolioFragment portfolioFragment = new PortfolioFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(IS_HIDDEN_KEY, isHiddenAssets);
+        portfolioFragment.setArguments(bundle);
+        return portfolioFragment;
+    }
+
+    public boolean isShowOnlyHiddenAssets() {
+        if (getArguments() != null) {
+            return getArguments().getBoolean(IS_HIDDEN_KEY, false);
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public void onResume() {
         super.onResume();
+        obtainData();
+    }
 
-        WalletViewModel walletViewModel = ViewModelProviders.of(getActivity()).get(WalletViewModel.class);
-        walletViewModel.getBalanceData().observe(
-                this, resourceBalanceList -> {
-                    switch (resourceBalanceList.status) {
-                        case SUCCESS:
-                            processShowdata(resourceBalanceList.data);
-                            mBalancesAdapter.notifyBalancesDataChanged(resourceBalanceList.data);
-                            break;
-                        case LOADING:
-                            if (resourceBalanceList.data != null) {
-                                mBalancesAdapter.notifyBalancesDataChanged(resourceBalanceList.data);
-                            }
-                            break;
-                    }
-                });
+    public void obtainData() {
+        if (isShowOnlyHiddenAssets()) {
+            ArrayList<BitsharesBalanceAsset> hiddenContainer = getHiddenAssetsList();
+            mBalancesAdapter.notifyBalancesDataChanged(hiddenContainer);
+        } else {
+            WalletViewModel walletViewModel = ViewModelProviders.of(getActivity()).get(WalletViewModel.class);
+            walletViewModel.getBalanceData().observe(
+                    this, resourceBalanceList -> {
+                        ArrayList<BitsharesBalanceAsset> container = getNotHidableAsserts(resourceBalanceList.data);
+                        switch (resourceBalanceList.status) {
+                            case SUCCESS:
+                                processShowdata(resourceBalanceList.data);
+                                mBalancesAdapter.notifyBalancesDataChanged(container);
+                                break;
+                            case LOADING:
+                                if (resourceBalanceList.data != null) {
+                                    mBalancesAdapter.notifyBalancesDataChanged(container);
+                                }
+                                break;
+                        }
+                    });
+        }
+    }
+
+    public ArrayList<BitsharesBalanceAsset> getNotHidableAsserts(List<BitsharesBalanceAsset> bitshares) {
+        ArrayList<BitsharesBalanceAsset> filteredContainer = (ArrayList<BitsharesBalanceAsset>) bitshares;
+        ArrayList<BitsharesBalanceAsset> hiddenContainer = getHiddenAssetsList();
+        for (int i = 0; i < bitshares.size(); i++) {
+            BitsharesBalanceAsset bitshareToShow = bitshares.get(i);
+            for (int j = 0; j < hiddenContainer.size(); j++) {
+                BitsharesBalanceAsset hiddenBitshare = hiddenContainer.get(j);
+                if (bitshareToShow.quote.equals(hiddenBitshare.quote)) {
+                    filteredContainer.remove(bitshareToShow);
+                }
+            }
+        }
+        return filteredContainer;
     }
 
     @Override
@@ -88,10 +181,39 @@ public class PortfolioFragment extends BaseFragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBalancesAdapter = new BalancesAdapter();
+        mBalancesAdapter.setOnHideClickListener(new OnPortfolioAction() {
+            @Override
+            public void makeHideClicked(BitsharesBalanceAsset bitsharesBalanceAsset) {
+                addToHide(bitsharesBalanceAsset);
+                obtainData();
+            }
+
+            @Override
+            public void makeVisibleClicked(BitsharesBalanceAsset bitsharesBalanceAsset) {
+                removeFromHide(bitsharesBalanceAsset);
+                obtainData();
+            }
+        });
         recyclerView.setAdapter(mBalancesAdapter);
 
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        int textResId = isShowOnlyHiddenAssets() ? R.string.hidden_assets : R.string.portfolio;
+        int textResIdHiding = isShowOnlyHiddenAssets() ? R.string.opened : R.string.hided;
+        ((TextView) view.findViewById(R.id.title)).setText(textResId);
+        ((TextView) view.findViewById(R.id.tvHiding)).setText(textResIdHiding);
+        view.findViewById(R.id.tvHiding).setOnClickListener(v -> {
+            if (isShowOnlyHiddenAssets()){
+                getActivity().onBackPressed();
+            } else {
+                FragmentContainerActivity.startThisActivityAndShowHideAssets(getActivity());
+            }
+        });
     }
 
     void processShowdata(List<BitsharesBalanceAsset> bitsharesBalanceAssetList) {
@@ -153,6 +275,8 @@ public class PortfolioFragment extends BaseFragment {
         public TextView viewAmount;
         public TextView viewOrders;
         public TextView viewAvailable;
+        public ImageView ivHide;
+        public View vHide;
 
         public BalanceItemViewHolder(View itemView) {
             super(itemView);
@@ -161,12 +285,20 @@ public class PortfolioFragment extends BaseFragment {
             viewUnit = (TextView) itemView.findViewById(R.id.textViewUnit);
 //            viewEqual = (TextView) itemView.findViewById(R.id.textViewEqual);
             viewOrders = (TextView) itemView.findViewById(R.id.textExchangeRate);
+            ivHide = (ImageView) itemView.findViewById(R.id.ivHide);
+            vHide = (View) itemView.findViewById(R.id.unlockButtonBgView);
             viewAvailable = (TextView) itemView.findViewById(R.id.textUSDBalance);
         }
     }
 
     class BalancesAdapter extends RecyclerView.Adapter<BalanceItemViewHolder> {
         private List<BitsharesBalanceAsset> bitsharesBalanceAssetList;
+
+        private OnPortfolioAction onPortfolioAction;
+
+        void setOnHideClickListener(OnPortfolioAction onPortfolioAction) {
+            this.onPortfolioAction = onPortfolioAction;
+        }
 
         @Override
         public BalanceItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -179,12 +311,21 @@ public class PortfolioFragment extends BaseFragment {
             BitsharesBalanceAsset bitsharesBalanceAsset = bitsharesBalanceAssetList.get(position);
             float balance = (float) bitsharesBalanceAsset.amount / bitsharesBalanceAsset.quote_precision;
             float orders = (float) bitsharesBalanceAsset.orders / bitsharesBalanceAsset.quote_precision;
-            float available = balance  -  orders;
+            float available = balance - orders;
 
             holder.viewUnit.setText(bitsharesBalanceAsset.quote);
             holder.viewAmount.setText(Utils.formatDecimal(balance));
             holder.viewOrders.setText(Utils.formatDecimal(orders));
             holder.viewAvailable.setText(Utils.formatDecimal(available));
+            int resourceId = isShowOnlyHiddenAssets() ? R.drawable.ic_eye : R.drawable.ic_hide;
+            holder.ivHide.setImageResource(resourceId);
+            holder.vHide.setOnClickListener(v -> {
+                if (isShowOnlyHiddenAssets()) {
+                    onPortfolioAction.makeVisibleClicked(bitsharesBalanceAsset);
+                } else {
+                    onPortfolioAction.makeHideClicked(bitsharesBalanceAsset);
+                }
+            });
         }
 
         @Override

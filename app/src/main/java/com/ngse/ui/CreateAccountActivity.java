@@ -23,6 +23,7 @@ import com.bitshares.bitshareswallet.wallet.exception.NetworkStatusException;
 import com.bitshares.bitshareswallet.wallet.faucet.CreateAccountException;
 import com.franmontiel.localechanger.LocaleChanger;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.mrd.bitlib.util.StringUtils;
 
 import org.evrazcoin.evrazwallet.R;
 
@@ -116,7 +117,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         EditText editTextAccountName = findViewById(R.id.editTextAccountName);
        /* InputFilter lowercaseFilter = (source, start, end, dest, dstart, dend) -> source.toString().toLowerCase();
         editTextAccountName.setFilters(new InputFilter[]{lowercaseFilter, new InputFilter.LengthFilter(63)});*/
-
         editTextAccountName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,6 +132,12 @@ public class CreateAccountActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 String strAccountName = s.toString();
                 if (strAccountName.isEmpty() == true) {
+                    return;
+                }
+                if (checkStringOnUpperCase(s.toString())){
+                    int pos = s.length();
+                    editTextAccountName.setText(s.toString().toLowerCase());
+                    editTextAccountName.setSelection(pos);
                     return;
                 }
 
@@ -224,6 +230,17 @@ public class CreateAccountActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private static boolean checkStringOnUpperCase(String str) {
+        char ch;
+        for(int i=0;i < str.length();i++) {
+            ch = str.charAt(i);
+            if (Character.isUpperCase(ch)) {
+               return true;
+            }
+        }
+        return false;
     }
 
     private void processCreateAccount(final String strAccount, final String strPassword, String strPasswordConfirm) {

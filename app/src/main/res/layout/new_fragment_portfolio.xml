@@ -5,17 +5,66 @@
     android:layout_height="match_parent"
     android:background="@color/dark_gray_color"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <TextView
-        style="@style/EvrazTitle"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@android:color/black"
-        android:paddingBottom="16dp"
-        android:text="@string/portfolio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/black">
+
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/EvrazTitle"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/black"
+            android:padding="15dp"
+            android:text="@string/portfolio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <!--<LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/tvHiding"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_default_background"
+                android:padding="4dp"
+                android:text="@string/hided"
+                android:textColor="@color/grey" />
+        </LinearLayout>-->
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:layout_gravity="end"
+        android:gravity="end"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvHiding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_default_background"
+            android:padding="4dp"
+            android:text="@string/hided"
+            android:textColor="@color/grey" />
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
@@ -32,28 +81,15 @@
 
             android:text="@string/assets" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/beige_color" />
-
         <TextView
             style="@style/EvrazTextHeaderTableStyle"
             android:text="@string/short_count" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/beige_color" />
 
         <TextView
             android:id="@+id/ordersTitle"
             style="@style/EvrazTextHeaderTableStyle"
 
             android:text="@string/orders" />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="@color/beige_color" />
 
         <TextView
             android:id="@+id/availableTitle"
@@ -75,46 +111,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                style="@style/EvrazTextHeaderTableStyle"
-                android:visibility="invisible" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/EvrazTextHeaderTableStyle"
+                    android:visibility="invisible" />
+
+                <TextView
+                    style="@style/EvrazTextHeaderTableStyle"
+                    android:visibility="invisible" />
+
+                <TextView
+                    style="@style/EvrazTextHeaderTableStyle"
+                    android:visibility="invisible" />
+
+                <TextView
+                    style="@style/EvrazTextHeaderTableStyle"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
 
             <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/beige_color" />
-
-            <TextView
-                style="@style/EvrazTextHeaderTableStyle"
-                android:visibility="invisible" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/beige_color" />
-
-            <TextView
-                style="@style/EvrazTextHeaderTableStyle"
-                android:visibility="invisible" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/beige_color" />
-
-            <TextView
-                style="@style/EvrazTextHeaderTableStyle"
-                android:visibility="invisible" />
-
-
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/new_recyclerview_item_balances"
-            android:layout_height="match_parent" />
+            tools:listitem="@layout/new_recyclerview_item_balances" />
 
 
     </FrameLayout>

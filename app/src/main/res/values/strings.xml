@@ -21,7 +21,7 @@
     <string name="reg_checkbox_1">I realize that I will lose access to my funds if I lose my password пароль </string>
     <string name="reg_checkbox_2">I realize, that nobody can restore my password if I lose or forget it</string>
     <string name="reg_checkbox_3">I wrote down or have saved in the other way my password</string>P
-    <string name="hide_assets">Hide assets</string>
+    <string name="hidden_assets">Hidden assets</string>
     <string name="loading_assets">Loading assets</string>
     <string name="hide">Hide</string>
     <string name="balance">Balance</string>
@@ -273,4 +273,6 @@
     <string name="Private_key">Private key</string>
     <string name="show_keys">Keys</string>
     <string name="delete">Delete</string>
+    <string name="hided">Hidden</string>
+    <string name="opened">Opened</string>
 </resources>
