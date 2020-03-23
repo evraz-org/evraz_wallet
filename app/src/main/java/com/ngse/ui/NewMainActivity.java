@@ -502,8 +502,8 @@ public class NewMainActivity extends AppCompatActivity
                     base.contains("BTC") ||
                     base.contains("BTS") ||
                     base.contains("EVRAZ")) {
-                String currencyPair = utils.getAssetSymbolDisply(quote) + ":" +
-                        utils.getAssetSymbolDisply(base);
+                String currencyPair = /*utils.getAssetSymbolDisply(quote)*/quote + ":" +
+                        /*utils.getAssetSymbolDisply(base)*/base;
 
                 newArrValuesContainer.add(currencyPair);
             }

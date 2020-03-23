@@ -195,6 +195,7 @@ public class SendFragment extends BaseFragment implements View.OnTouchListener,H
         });
 
         final WebView webViewTo = (WebView) mView.findViewById(R.id.webViewAvatarTo);
+        final View viewAvatarTo = mView.findViewById(R.id.viewAvatarTo);
         mEditTextTo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -210,6 +211,7 @@ public class SendFragment extends BaseFragment implements View.OnTouchListener,H
             public void afterTextChanged(Editable s) {
                 sha256_object.encoder encoder = new sha256_object.encoder();
                 encoder.write(s.toString().getBytes());
+                viewAvatarTo.setVisibility(View.GONE);
                 loadWebView(webViewTo, 40, encoder.result().toString());
                 processGetTransferToId(mEditTextTo.getText().toString(), mTextViewId);
             }

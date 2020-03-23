@@ -59,12 +59,59 @@
                     style="@style/EvrazTextHeaderViewStyle"
                     android:text="@string/account_name" />
 
-                <EditText
-                    android:id="@+id/editTextAccountName"
-                    style="@style/EvrazEditTextStyle"
-                    android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
-                    android:gravity="center_vertical"
-                    android:inputType="text" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <WebView
+                        android:id="@+id/webViewAvatarTo"
+                        android:layout_width="44dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintTop_toTopOf="@+id/editTextAccountName"
+                        app:layout_constraintBottom_toBottomOf="@+id/editTextAccountName"
+                        />
+
+                    <View
+                        android:id="@+id/viewAvatarTo"
+                        android:layout_width="44dp"
+                        tools:visibility="gone"
+                        android:background="@color/gray_color"
+                        android:layout_height="44dp" />
+
+
+                    <EditText
+                        android:id="@+id/editTextAccountName"
+                        style="@style/EvrazEditTextStyle"
+                        android:layout_width="0dp"
+                        android:layout_marginTop="0dp"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/webViewAvatarTo"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/textViewToId"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/editTextTo"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_toStartOf="@+id/qrScan"
+                        android:layout_toLeftOf="@+id/qrScan"
+                        android:lines="1"
+                        android:textColor="@color/beige_color"
+                        android:textSize="@dimen/send_fragment_text_size"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="#10714822222" />
+
+                </android.support.constraint.ConstraintLayout>
 
             </LinearLayout>
 
@@ -79,8 +126,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="4dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
                     android:text="@string/label_file_path"
                     android:textSize="14sp" />
 
@@ -102,8 +149,8 @@
                         android:layout_width="80dp"
                         android:layout_height="25dp"
                         android:layout_gravity="right|bottom"
-                        android:layout_marginBottom="16dp"
                         android:layout_marginRight="2dp"
+                        android:layout_marginBottom="16dp"
                         android:background="@drawable/button_small_background"
                         android:gravity="center"
                         android:text="@string/label_select_file"
@@ -135,8 +182,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="4dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
                     android:text="@string/label_private_key"
                     android:textSize="14sp" />
 
@@ -161,8 +208,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="4dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginRight="4dp"
                     android:text="Brain Key:"
                     android:textSize="14sp" />
 
@@ -182,8 +229,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="4dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginRight="4dp"
                 android:textColor="@color/red"
                 android:textSize="14sp" />
 
@@ -194,8 +241,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/btn_green_background"
-                android:paddingEnd="22dp"
                 android:paddingStart="22dp"
+                android:paddingEnd="22dp"
                 android:text="@string/model_select_activity_title"
                 android:textColor="@android:color/black" />
 

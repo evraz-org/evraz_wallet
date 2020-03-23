@@ -1,5 +1,6 @@
 package com.ngse.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,18 +12,31 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bitshares.bitshareswallet.wallet.BitsharesWalletWraper;
+import com.bitshares.bitshareswallet.wallet.account_object;
 import com.bitshares.bitshareswallet.wallet.common.ConvertUriToFilePath;
 import com.bitshares.bitshareswallet.wallet.common.ErrorCode;
+import com.bitshares.bitshareswallet.wallet.exception.ErrorCodeException;
+import com.bitshares.bitshareswallet.wallet.exception.NetworkStatusException;
+import com.bitshares.bitshareswallet.wallet.fc.crypto.sha256_object;
 import com.franmontiel.localechanger.LocaleChanger;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.evrazcoin.evrazwallet.R;
+
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.exceptions.Exceptions;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK;
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
@@ -147,6 +161,56 @@ public class ImportActivty extends AppCompatActivity {
             default:
                 break;
         }
+        ((EditText) findViewById(R.id.editTextAccountName)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                sha256_object.encoder encoder = new sha256_object.encoder();
+                encoder.write(s.toString().getBytes());
+                findViewById(R.id.viewAvatarTo).setVisibility(View.GONE);
+                loadWebView(findViewById(R.id.webViewAvatarTo), 40, encoder.result().toString());
+                processGetTransferToId(s.toString(), findViewById(R.id.textViewToId));
+            }
+        });
+    }
+
+
+    private void loadWebView(WebView webView, int size, String encryptText) {
+        String htmlShareAccountName = "<html><head><style>body,html {margin:0; padding:0; text-align:center;}</style><meta name=viewport content=width=" + size + ",user-scalable=no/></head><body><canvas width=" + size + " height=" + size + " data-jdenticon-hash=" + encryptText + "></canvas><script src=https://cdn.jsdelivr.net/jdenticon/1.3.2/jdenticon.min.js async></script></body></html>";
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webView.loadData(htmlShareAccountName, "text/html", "UTF-8");
+    }
+
+    @SuppressLint("CheckResult")
+    private void processGetTransferToId(final String strAccount, final TextView textViewTo) {
+        Flowable.just(strAccount)
+                .subscribeOn(Schedulers.io())
+                .map(accountName -> {
+                    account_object accountObject = BitsharesWalletWraper.getInstance().get_account_object(accountName);
+                    if (accountObject == null) {
+                        throw new ErrorCodeException(ErrorCode.ERROR_NO_ACCOUNT_OBJECT, "it can't find the account");
+                    }
+
+                    return accountObject;
+                }).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(accountObject -> {
+                    if (isFinishing() == false) {
+                        textViewTo.setText("#" + accountObject.id.get_instance());
+                    }
+                }, throwable -> {
+                    if (throwable instanceof NetworkStatusException || throwable instanceof ErrorCodeException) {
+                        if (isFinishing() == false) {
+                            textViewTo.setText("#none");
+                        }
+                    } else {
+                        throw Exceptions.propagate(throwable);
+                    }
+                });
     }
 
     @Override

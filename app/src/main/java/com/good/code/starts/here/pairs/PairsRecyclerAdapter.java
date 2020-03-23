@@ -68,8 +68,8 @@ public class PairsRecyclerAdapter extends RecyclerView.Adapter<PairsRecyclerAdap
 
         String[] pair = pairs.get(i).split(":");
         if (pair.length == 2) {
-            String first = utils.getAssetSymbolDisply(pair[0]);
-            String second = utils.getAssetSymbolDisply(pair[1]);
+            String first = /*utils.getAssetSymbolDisply(pair[0]);*/ pair[0];
+            String second = /*utils.getAssetSymbolDisply(pair[1]);*/  pair[1];
             viewHolder.first.setText(first);
             viewHolder.second.setText(second);
         }

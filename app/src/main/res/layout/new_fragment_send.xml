@@ -110,12 +110,17 @@
                         android:layout_width="44dp"
                         android:layout_height="44dp" />
 
+                    <View
+                        android:id="@+id/viewAvatarTo"
+                        android:layout_width="44dp"
+                        android:background="@color/gray_color"
+                        android:layout_height="44dp" />
+
                     <EditText
                         android:id="@+id/editTextTo"
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:background="@drawable/btn_default_background"
-                        android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_toRightOf="@+id/webViewAvatarTo"
                         android:layout_toEndOf="@+id/webViewAvatarTo"
